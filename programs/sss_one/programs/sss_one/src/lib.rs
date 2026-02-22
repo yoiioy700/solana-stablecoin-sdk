@@ -9,8 +9,9 @@ pub mod events;
 use instructions::*;
 use state::*;
 use error::*;
+use events::*;
 
-declare_id!("SSS1TokenProgram1111111111111111111111111111");
+declare_id!("SSS1111111111111111111111111111111111111111");
 
 #[program]
 pub mod sss_one {
@@ -58,7 +59,7 @@ pub mod sss_one {
         
         emit!(StablecoinInitialized {
             name,
-            symbol,
+            symbol: symbol.clone(),
             decimals,
             mint: ctx.accounts.mint.key(),
             authority: ctx.accounts.authority.key(),
