@@ -3,179 +3,88 @@
 A modular stablecoin SDK with standardized presets for Solana. Built for Superteam Brazil Bounty.
 
 **Deadline:** March 24, 2026 (17 days remaining)  
-**Repository:** github.com/yoiioy700/solana-stablecoin-standard  
+**Bounty:** github.com/solanabr/solana-stablecoin-standard  
 **Reference:** github.com/solanabr/solana-vault-standard
 
+**⚠️ ORGANIZED INTO TWO SEPARATE FOLDERS:**
+
 ---
 
-## Architecture
+## 📁 Folder Structure
 
-### Three Layers
-
+### `/submission/` - **ACTUAL BOUNTY SUBMISSION** 🎯
+This is the production code for the bounty.
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ Layer 3 - Standard Presets                                  │
-│ ┌─────────────┐  ┌─────────────────┐                         │
-│ │   SSS-1     │  │     SSS-2       │                         │
-│ │  Minimal    │  │   Compliant     │                         │
-│ │             │  │  + Blacklist    │                         │
-│ │             │  │  + Seizure      │                         │
-│ └─────────────┘  └─────────────────┘                         │
-└─────────────────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────────────────┐
-│ Layer 2 - Modules                                             │
-│ ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
-│ │ Compliance   │  │   Privacy    │  │   Oracle     │       │
-│ │ - Transfer   │  │ - Confident. │  │ - Pyth       │       │
-│ │   hook       │  │   transfers  │  │ - Switchboard│       │
-│ │ - Blacklist  │  │ - Allowlists │  │              │       │
-│ └──────────────┘  └──────────────┘  └──────────────┘       │
-└─────────────────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────────────────┐
-│ Layer 1 - Base SDK                                            │
-│ ┌─────────────────────────────────────────────────────────┐ │
-│ │ Token Creation  │  Role Management  │  CLI + TS SDK      │ │
-│ │ - Mint authority│  - Master auth    │  - Initialize      │ │
-│ │ - Freeze auth   │  - Minter quota   │  - Mint/Burn       │ │
-│ │ - Metadata      │  - Blacklister    │  - Freeze/Thaw     │ │
-│ └─────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
+submission/
+├── programs/          # On-chain programs
+│   ├── sss-1/        # Main submission
+│   └── sss-2-modules/# Compliance features
+├── sdk/              # TypeScript SDK
+├── backend/          # Backend services
+├── cli/              # Admin CLI
+└── tests/            # Integration tests
 ```
 
----
+### `/rust-learning/` - **LEARNING MATERIALS** 📚
+Chapter-by-chapter Rust learning exercises.
+- Chapter 1: Variables & Types
+- Chapter 2: Ownership & Borrowing
+- Chapter 3: Structs, Enums, Pattern Matching
+- Chapter 4: Collections & Error Handling
 
-## Standards
-
-### SSS-1: Minimal Stablecoin
-- Mint authority
-- Freeze authority  
-- Metadata
-- Basic role management
-
-### SSS-2: Compliant Stablecoin
-- SSS-1 + Compliance Module
-- Permanent delegate
-- Transfer hook (blacklist check)
-- Blacklist enforcement
-- Seizure capability
+### `/anchor-basics/` - **ANCHOR LEARNING** ⚓
+Chapter 6: Solana/Anchor basics.
 
 ---
 
-## Folder Structure
+## Quick Start (Submission)
 
-```
-solana-stablecoin-standard/
-├── programs/
-│   ├── sss-1/                    # Minimal stablecoin program
-│   ├── sss-2-modules/           # Compliance module (transfer hook)
-│   └── transfer-hook/           # Separate blacklist enforcement program
-├── sdk/
-│   ├── core/                    # Base SDK (TypeScript)
-│   ├── compliance/              # Compliance module SDK
-│   └── privacy/               # Privacy module SDK
-├── backend/
-│   ├── mint-burn-service/      # Fiat-to-stablecoin lifecycle
-│   ├── event-indexer/          # On-chain event monitoring
-│   └── compliance-service/     # Blacklist management (SSS-2)
-├── cli/
-│   ├── admin/                  # Admin operations CLI
-│   └── deploy/                 # Deployment scripts
-├── rust-learning/              # Learning materials (Ch 1-4)
-├── anchor-basics/              # Chapter 6 learning
-└── README.md                   # This file
-```
-
----
-
-## Progress Tracker
-
-### Week 1 (Feb 23 - Mar 1): Foundation
-- [ ] Day 1: SSS-1 program structure (initialize, mint, burn)
-- [ ] Day 2: Role-based access control
-- [ ] Day 3: Freeze/thaw, pause/unpause
-- [ ] Day 4: Transfer hook for SSS-2
-- [ ] Day 5: Blacklist PDA management
-- [ ] Day 6: Seizure via permanent delegate
-- [ ] Day 7: Core SDK TypeScript
-
-### Week 2 (Mar 2 - Mar 9): Backend & Integration
-- [ ] Day 8: Mint-burn service
-- [ ] Day 9: Event indexer
-- [ ] Day 10: Compliance service (SSS-2)
-- [ ] Day 11: Admin CLI
-- [ ] Day 12-13: Testing & integration
-- [ ] Day 14: Documentation
-
-### Week 3 (Mar 10 - Mar 20): Polish & Submit
-- [ ] Day 15-17: Final testing, bug fixes
-- [ ] Day 18: README, docs, examples
-- [ ] Day 19: Submit
-
----
-
-## Quick Start
-
-### Prerequisites
 ```bash
-# Install Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cd submission
 
-# Install Solana CLI
-sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
-
-# Install Anchor
-cargo install --git https://github.com/coral-xyz/anchor avm --locked
-avm install latest
-```
-
-### Build
-```bash
-cd programs/sss-1
+# Build
 anchor build
-```
 
-### Test
-```bash
+# Test  
 anchor test
+
+# Deploy
+anchor deploy --provider.cluster devnet
 ```
 
 ---
 
-## Key Features
+## Progress
 
-### Role-Based Access Control
-- Master authority (can transfer authority)
-- Minter (with quotas)
-- Burner
-- Blacklister (SSS-2 only)
-- Pauser
-- Seizer (SSS-2 only)
+### Week 1: Foundation (Feb 23 - Mar 1)
+- [x] Day 4: SSS-1 program structure
+- [ ] Day 5: SSS-1 tests + Devnet deploy
+- [ ] Day 6: SSS-2 transfer hook
+- [ ] Day 7: SSS-2 blacklist
+- [ ] Day 8: Role management
+- [ ] Day 9: Events + Indexing
+- [ ] Day 10: Core SDK
 
-### Compliance Module (SSS-2)
-Every transfer is checked against blacklist PDA:
-```rust
-if blacklist.contains(from) || blacklist.contains(to) {
-    return Err(ErrorCode::Blacklisted);
-}
-```
+### Week 2: Backend + Integration (Mar 2 - Mar 9)
+- [ ] Mint-burn service
+- [ ] Event indexer
+- [ ] Compliance service
+- [ ] Admin CLI
+- [ ] Testing
 
-### Seizure Capability
-Permanent delegate can seize tokens from any account:
-```rust
-pub fn seize(ctx: Context<Seize>, amount: u64) -> Result<()> {
-    require!(config.enable_permanent_delegate, ErrorCode::NotSSS2);
-    // Transfer from target to authority
-}
-```
+### Week 3: Polish + Submit (Mar 10 - Mar 20)
+- [ ] Documentation
+- [ ] Final testing
+- [ ] Submit PR
 
 ---
 
-## Resources
+## Key Documentation
 
-- [Solana Vault Standard Reference](https://github.com/solanabr/solana-vault-standard)
-- [Anchor Lang Documentation](https://docs.rs/anchor-lang/latest/anchor_lang/)
-- [SPL Token 2022 Extensions](https://solana.com/developers/guides/token-extensions)
+- [Submission README](submission/README.md) - Production code
+- [Bounty Requirements](BOUNTY.md) - Full requirements
+- [Architecture](ARCHITECTURE.md) - Design decisions
 
 ---
 
-**Built with ⚓ Anchor + 🦀 Rust for Solana Stablecoin Standard**
+**Built with 🦀 Rust + ⚓ Anchor for Solana**
